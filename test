@@ -1,0 +1,150 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#define getpch(type)(type*)malloc(sizeof(type))
+#define NULL0
+struct pcb{             /*定义进程控制块PCB*/
+  char id[10];          //进程号
+  char state;           //进程状态
+  int priority;         //进程优先级数，数字越大，优先级越高
+  int alltime;          //进程还需占用时间片
+  int cputime;          //进程已占用时间片
+  struct pcb*next;      //进程队列指针
+}*ready=NULL,*p;
+
+typedef struct pcb PCB;
+
+void sort()            //建立对进程优先级排列函数
+{
+	 PCB*first,*second;
+	 int insert=0;
+	 
+	 if(ready==NULL)||(p->priority)>(ready->priority))) //优先级最大者，插入队首
+	 {
+		 p->next=ready;
+		 ready=p;
+	 }
+	 else                  //进程比较优先级，插入适当的位置中
+	 {
+		 first=ready;
+		 second=first->next;
+		 while(second!=NULL)
+		 {
+			 if((p->priority)>(second->priority))//若插入进程比当前进程优先数大
+			 {//插入到当前进程前面
+				 p->next=second;
+				 first->next=p;
+				 second=NULL;
+				 insert=1;
+			 }
+			 else//插入进程优先数最低，则插入到队伍尾部
+
+			 {first=first->next;
+			 second=second->next
+			 }
+		 }
+		 if(insert==0)first->next=p;
+	 }
+}
+void input()//建立进程控制块
+{
+	 int i,num;
+	 system("cls");//清屏
+	 printf("\n 请输入进程数：");
+	scancf("%d",&num);
+	 for(i=1;i<=num;i++)
+	 {
+		  printf("\n 进程名%d：\n",i);
+			  p=getpch(PCB);
+		 printf("\n 输入进程名 ID：");
+		scanf("%s",p->id);
+		 printf("\n 输入进程名优先数PRIORITY：");
+		 scanf("%d",&p->priority);
+		 printf("\n 输入进程运行时间ALLTIME：");
+		 scanf("%d",&p->alltime);
+		 printf("\n");
+		 p->cputime=0;
+		 p->state=NULL;
+		 sort();//调用sort函数
+	 }
+}
+int space()
+{ 
+	int I=0;
+	PCB*pr=ready;
+	while(pr!=NULL)
+	{
+		I++;
+		pr=pr->next;
+	}
+	return(I);
+}
+
+void disp(PCB*pr)//建立进程显示数，用于显示当前进程
+{
+	printf("\n进程名\t 状态\t 需要运行时间\t 已经运行时间\t 已经运行时间\n");
+	printf("&s\t", pr->id);
+	printf("&s\t", pr->state);
+	printf("&s\t", pr->priority);
+	printf("&s\t", pr->alltime);
+	printf("&s\t", pr->cputime);
+	printf("\n");
+}
+void check()//建立进程查看函数、
+{
+	PCB*pr;
+	printf("、n 当前正在运行的进程：\n")；//显示当前运行进程
+		disp(p);
+	pr = ready;
+	printf("\n 当前就绪队列状态为：\n");//显示就绪队列状态
+	while (pr!=NULL)
+	{
+		disp(pr);
+		pr = pr->next;
+	}
+}
+void destroy()//建立进程撤销函数
+{
+	printf("\n 进程 [%s]已完成.\n", p->id);
+	free(p);
+}
+void running()//建立进程就绪函数
+{
+	(p->cputime)++;
+	if (p->cputime == p->alltime)
+		destroy();//调用destroy函数
+	else
+	{
+		(p->priority)--;
+		p->state = 'W';
+		sort();//调用sort函数
+	}
+}
+void main()//主函数
+{
+	int len.h = 0;//n为运行次数
+	char ch;
+	input();
+	len = space();
+	while ((len!=0)&&(ready!=NULL))
+	{
+		ch = getchar();
+		h++;
+		printf("\n");
+		printf("=======================================");
+		printf("\n 现在是第%d次运行： \n", h);
+		p = ready;
+		ready = p->next;
+		p->next = NULL;
+		p->state = 'R';
+		check();
+		running();
+		printf("\n 按任意键继续......\n");
+	}
+	printf("\n\n 进程已经完成.\n");
+
+}
+
+
+
+
